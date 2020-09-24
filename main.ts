@@ -398,12 +398,14 @@ function nextLevel () {
     startLevel(currentLevel + 1)
 }
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile1, function (sprite, location) {
-    finishedLevel()
+    if (isPlaying) {
+        finishedLevel()
+    }
 })
 function startLevel (levelNumber: number) {
     currentLevel = levelNumber
-    broom.y = scene.screenHeight() / 2
     broom.left = 0
+    broom.y = scene.screenHeight() / 2
     if (levelNumber == 1) {
         tiles.setTilemap(tilemap`level`)
     } else if (levelNumber == 2) {
