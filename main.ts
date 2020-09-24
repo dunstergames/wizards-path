@@ -9,7 +9,8 @@ function doCountDown () {
 }
 function finishedLevel () {
     isPlaying = false
-    game.splash("LEVEL COMPLETE!")
+    game.splash("LEVEL " + currentLevel + " COMPLETE!")
+    nextLevel()
 }
 function startIntro () {
     scene.setBackgroundImage(img`
@@ -383,49 +384,37 @@ function startIntro () {
     game.showLongText("Our brother has been captured by an evil warlock and we need to save him!", DialogLayout.Bottom)
     game.showLongText("Tilt your device to channel your magical energy and guide us.", DialogLayout.Bottom)
     game.showLongText("Make sure to avoid all the obstacles the warlock has put there to slow us down!", DialogLayout.Bottom)
-    game.setDialogCursor(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . c c c . . . . . c c . . . 
-        . . c c c c c . . . c c c c . . 
-        . c c . . c c . . c c c c c c . 
-        . c c . . . . . . c c . . c c . 
-        . c c . . . . . . c c . . c c . 
-        . c c . . . . . . c c . . c c . 
-        . c c . c c c c . c c . . c c . 
-        . c c . . c c . . c c . . c c . 
-        . c c . . c c . . c c . . c c . 
-        . c c . . c c . . c c c c c c . 
-        . c c c c c . . . . c c c c . . 
-        . . c c c c . . . . . c c . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `)
     game.showLongText("Are you ready?", DialogLayout.Bottom)
+}
+function nextLevel () {
+    startLevel(currentLevel + 1)
 }
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile1, function (sprite, location) {
     finishedLevel()
 })
 function startLevel (levelNumber: number) {
+    currentLevel = levelNumber
+    broom.y = scene.screenHeight() / 2
     broom.left = 0
     if (levelNumber == 1) {
-        tiles.setTilemap(tiles.createTilemap(hex`640008000101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000302020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202`, img`
-            2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-            ....................................................................................................
-            ....................................................................................................
-            ....................................................................................................
-            ....................................................................................................
-            ....................................................................................................
-            ....................................................................................................
-            2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-            `, [myTiles.transparency16,sprites.builtin.forestTiles28,sprites.builtin.forestTiles6,myTiles.tile1], TileScale.Sixteen))
+        tiles.setTilemap(tilemap`level`)
+    } else if (levelNumber == 2) {
+        tiles.setTilemap(tilemap`level_0`)
+    } else {
+        game.over(true, effects.confetti)
     }
-    doCountDown()
-    isPlaying = true
+    story.queueStoryPart(function () {
+        doCountDown()
+    })
+    story.queueStoryPart(function () {
+        isPlaying = true
+    })
 }
 let broom: Sprite = null
+let currentLevel = 0
 let isPlaying = false
 isPlaying = false
+currentLevel = 0
 startIntro()
 scene.setBackgroundImage(img`
     ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
@@ -581,5 +570,8 @@ game.onUpdate(function () {
     if (isPlaying) {
         broom.vy = Math.constrain(controller.acceleration(ControllerDimension.Y) - 700, -100, 100)
         broom.vx = Math.constrain(controller.acceleration(ControllerDimension.X), -50, 50) + 100
+    } else {
+        broom.vy = 0
+        broom.vx = 0
     }
 })
