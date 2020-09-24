@@ -1,3 +1,8 @@
+scene.onHitWall(SpriteKind.Player, function (sprite, location) {
+    isPlaying = false
+    game.splash("LEVEL " + currentLevel + " FAILED!")
+    restartLevel()
+})
 function doCountDown () {
     broom.say("3", 1000)
     pause(1000)
@@ -11,6 +16,9 @@ function finishedLevel () {
     isPlaying = false
     game.splash("LEVEL " + currentLevel + " COMPLETE!")
     nextLevel()
+}
+function restartLevel () {
+    startLevel(currentLevel)
 }
 function startIntro () {
     scene.setBackgroundImage(img`
