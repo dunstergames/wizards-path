@@ -4,6 +4,11 @@
         "mimeType": "image/x-mkcd-f4",
         "tilemapTile": true
     },
+    "tile1": {
+        "data": "hwQQABAAAAAR//8REf//ERH//xER//8R/xER//8REf//ERH//xER//8REf//ERH//xER//8REf8R//8REf//ERH//xER//8REf//ERH//xER//8REf//Ef8REf//ERH//xER//8REf//ERH//xER//8REf//ERH/Ef//ERH//xER//8REf//EQ==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true
+    },
     "*": {
         "mimeType": "image/x-mkcd-f4",
         "dataEncoding": "base64",
