@@ -1,3 +1,12 @@
+function doCountDown () {
+    broom.say("3", 1000)
+    pause(1000)
+    broom.say("2", 1000)
+    pause(1000)
+    broom.say("1", 1000)
+    pause(1000)
+    broom.say("GO!", 1000)
+}
 function startIntro () {
     scene.setBackgroundImage(img`
         6666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
@@ -404,6 +413,7 @@ function startLevel (levelNumber: number) {
             2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
             `, [myTiles.transparency16,sprites.builtin.forestTiles28,sprites.builtin.forestTiles6], TileScale.Sixteen))
     }
+    doCountDown()
     isPlaying = true
 }
 let broom: Sprite = null
