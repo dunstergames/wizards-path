@@ -578,8 +578,8 @@ scene.cameraFollowSprite(broom)
 startLevel(1)
 game.onUpdate(function () {
     if (isPlaying) {
-        broom.vy = Math.constrain(controller.acceleration(ControllerDimension.Y) - 700, -100, 100)
-        broom.vx = Math.constrain(controller.acceleration(ControllerDimension.X), -50, 50) + 100
+        broom.vy = Math.constrain(controller.acceleration(ControllerDimension.X), -50, 50)
+        broom.vx = 50
     } else {
         broom.vy = 0
         broom.vx = 0
